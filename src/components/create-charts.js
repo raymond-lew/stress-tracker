@@ -1,6 +1,6 @@
 
-import useRemoteService from "./hooks";
-import { scaleData } from "./scale";
+import useRemoteService from "../hooks/useRemoteService";
+import { scaleData } from "../lib/scale";
 
 function DataSetHandler() {
   const { userEntry } = useRemoteService([]);

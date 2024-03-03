@@ -1,15 +1,11 @@
 import React from "react";
 import { Table } from "reactstrap";
 import Typography from "@material-ui/core/Typography";
-import useRemoteService from "./hooks";
+import useRemoteService from "../hooks/useRemoteService";
 import StateHandler from "./state-handler";
+import { dateOptions } from "../lib/dateOptions";
 
-const dateOptions = {
-  weekday: "short",
-  year: "numeric",
-  month: "short",
-  day: "numeric",
-};
+
 
 function Entries() {
   const { userEntry } = useRemoteService([]);

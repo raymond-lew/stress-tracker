@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { Form, Input, Button, Table } from "reactstrap";
 import Typography from "@material-ui/core/Typography";
-import { scaleData } from "./scale";
+import { scaleData } from "../lib/scale";
 import { AuthContext } from "./state-provider";
 
 const min = 0;

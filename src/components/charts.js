@@ -3,9 +3,9 @@ import Typography from "@material-ui/core/Typography";
 import Chart from "chart.js/auto";
 import { Line, Doughnut } from "react-chartjs-2";
 import { CDBContainer } from "cdbreact";
-import useRemoteService from "./hooks";
+import useRemoteService from "../hooks/useRemoteService";
 import StateHandler from "./state-handler";
-import DataSetHandler from "./dataset-handler";
+import DataSetHandler from "./create-charts";
 
 function Charts() {
   const { userEntry } = useRemoteService([]);

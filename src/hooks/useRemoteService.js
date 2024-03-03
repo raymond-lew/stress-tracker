@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { AuthContext } from "./state-provider";
+import { AuthContext } from "../components/state-provider";
 
 function useRemoteService(initial) {
   const [userEntry, setUserEntry] = useState(initial);
