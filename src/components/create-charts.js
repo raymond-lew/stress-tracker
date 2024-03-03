@@ -1,62 +1,93 @@
+import React, { useEffect } from "react";
+import Chart from "chart.js/auto";
 
-import useRemoteService from "../hooks/useRemoteService";
-import { scaleData } from "../lib/scale";
-
-function DataSetHandler() {
-  const { userEntry } = useRemoteService([]);
-
-  const flowRateIds = userEntry?.map((option) => option.entryId);
-  const flowRates = userEntry?.map((option) => option.rate);
-
-  const totalRates = flowRates.length;
-  const uniqueRates = [...new Set(flowRates)];
-  const countRates = [];
-
-  uniqueRates.forEach((currRate) => {
-    const numRates = flowRates.filter((rt) => rt === currRate);
-    const pctRates = (numRates.length * 100) / totalRates;
-    countRates.push(pctRates.toFixed(0));
-  });
-
-  const rdScale = scaleData.filter(({ rate }) => uniqueRates.includes(rate));
-  const countDescriptions = rdScale?.map((option) => option.description);
-
-  const dataLine = {
-    labels: flowRateIds,
-    datasets: [
-      {
-        label: "Flow Distribution",
-        backgroundColor: "#0d98ba",
-        borderColor: "#0d98ba",
-        data: flowRates,
-      },
-    ],
-  };
-
-  const dataDoughnut = {
-    labels: countDescriptions,
-    datasets: [
-      {
-        backgroundColor: [
-          "#a51d6e",
-          "#635d11",
-          "#ff8f00",
-          "#9b59b6",
-          "#e74c3c",
-          "#c90016",
-          "#a52a2a",
-          "#ff0f87",
-          "#95a5a6",
-          "#34495e",
-          "#a5981d",
-          "3808080",
+export function Line(props) {
+  const createChart = () => {
+    let ctx = document.getElementById("myLine");
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: props.label,
+        datasets: [
+          {
+            label: props.title,
+            data: props.data,
+            backgroundColor: "rgba(255,255,255,0.1)",
+            borderColor: "rgba(54, 162, 235)",
+            pointBackgroundColor: "rgba(54, 162, 235, 1)",
+            pointBorderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 2,
+          },
         ],
-        borderColor: "#b6d7a8",
-        data: countRates,
       },
-    ],
+      options: {
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                padding: 100,
+              },
+              display: false,
+            },
+          ],
+        },
+      },
+    });
   };
-  return { dataLine, dataDoughnut };
+  useEffect(() => {
+    createChart();
+  });
+  return (
+    <div>
+      <div>
+        <canvas id="myLine" height="280" width="0"></canvas>
+      </div>
+    </div>
+  );
 }
 
-export default DataSetHandler;
+export function Doughnut(props) {
+  const createDoughnut = () => {
+    let ctx = document.getElementById("myDoughnut");
+    new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: props.label,
+        datasets: [
+          {
+            backgroundColor: [
+              "rgba(216, 54, 138, 0.8)",
+              "rgba(36, 85, 26, 0.75)",
+              "rgba(225, 160, 65, 0.75)",
+              "rgba(232, 58, 82, 0.75)",
+              "rgba(95, 4, 17, 0.75)",
+              "rgba(120, 139, 18, 0.75)",
+              "rgba(161, 165, 143, 0.75)",
+              "rgba(243, 41, 9, 0.75)",
+              "rgba(23, 18, 69, 0.75)",
+              "rgba(241, 151, 72, 0.75)",
+              "rgba(248, 10, 37, 0.75)",
+            ],
+            borderColor: "rgba(182, 215, 168, 1)",
+            data: props.data,
+          },
+        ],
+      },
+    });
+  };
+  useEffect(() => {
+    createDoughnut();
+  });
+  return (
+    <div>
+      <div>
+        <canvas id="myDoughnut" height="280" width="0"></canvas>
+      </div>
+    </div>
+  );
+}
+
+export default { Line, Doughnut };

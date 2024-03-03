@@ -1,15 +1,29 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import Chart from "chart.js/auto";
-import { Line, Doughnut } from "react-chartjs-2";
 import { CDBContainer } from "cdbreact";
 import useRemoteService from "../hooks/useRemoteService";
 import StateHandler from "./state-handler";
-import DataSetHandler from "./create-charts";
+import { scaleData } from "../lib/scale";
+import { Line, Doughnut } from "./create-charts";
 
 function Charts() {
   const { userEntry } = useRemoteService([]);
-  const { dataLine, dataDoughnut } = DataSetHandler();
+
+  const flowRateIds = userEntry?.map((option) => option.entryId);
+  const flowRates = userEntry?.map((option) => option.rate);
+
+  const totalRates = flowRates.length;
+  const uniqueRates = [...new Set(flowRates)];
+  const countRates = [];
+
+  uniqueRates.forEach((currRate) => {
+    const numRates = flowRates.filter((rt) => rt === currRate);
+    const pctRates = (numRates.length * 100) / totalRates;
+    countRates.push(pctRates.toFixed(0));
+  });
+
+  const rdScale = scaleData.filter(({ rate }) => uniqueRates.includes(rate));
+  const countDescriptions = rdScale?.map((option) => option.description);
 
   return (
     <>
@@ -26,17 +40,18 @@ function Charts() {
                 </div>
                 <br></br>
                 <CDBContainer>
-                  <Line data={dataLine} options={{ responsive: true }} />
+                  <Line
+                    label={flowRateIds}
+                    data={flowRates}
+                    title={"Stress Distribution"}
+                  ></Line>
                 </CDBContainer>
                 <br></br>
                 <CDBContainer>
                   <div class="d-flex justify-content-center">
                     <Typography variant="caption">Stress Count</Typography>
                   </div>
-                  <Doughnut
-                    data={dataDoughnut}
-                    options={{ responsive: true }}
-                  />
+                  <Doughnut label={countDescriptions} data={countRates} />
                 </CDBContainer>
               </>
             )}
