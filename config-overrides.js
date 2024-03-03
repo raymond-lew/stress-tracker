@@ -1,4 +1,5 @@
 const webpack = require("webpack");
+
 module.exports = function override(config, env) {
   config.resolve.fallback = {
     url: require.resolve("url"),
@@ -20,16 +21,4 @@ module.exports = function override(config, env) {
   return config;
 };
 
-{
-  /*module.exports = function override(config, env) {
-    // New config, e.g. config.plugins.push...
-    // console.log(JSON.stringify(config.resolve.fallback))
-     config.resolve.fallback = {
-         crypto: false,
-         util: false,
-         stream: false,
-         ...config.resolve.fallback
-     };  
-     return config
- }*/
-}
+
