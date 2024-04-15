@@ -19,6 +19,14 @@ app.use(
 app.use(cors());
 app.use("/api", Route);
 
+if (process.env.NODE_ENV === 'production') {
+  //*Set static folder up in production
+  app.use(express.static('client/build'));
+
+  app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, 'client', 'build','index.html')));
+}
+
+
 const port = process.env.PORT || 5100;
 const server = app.listen(port, () => {
   console.log("Connected to port " + port);
