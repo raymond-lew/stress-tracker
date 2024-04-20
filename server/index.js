@@ -17,10 +17,11 @@ app.use(
   })
 );
 app.use(cors());
+
 app.use("/api", Route);
 
 const path = require("path");
-
+{/*}
 if (process.env.NODE_ENV === 'production') {
   //*Set static folder up in production
   app.use(express.static('client/build'));
@@ -33,11 +34,11 @@ app.get('*', (req, res)=> {
   const index = path.join(__dirname, '/', '../build', 'index.html' );
   res.sendFile(index);
 });
-{/*}
-app.use(express.static(path.join(__dirname, "build"))); 
 */}
+app.use(express.static(path.join(__dirname, "build"))); 
 
-const port process.env.PORT || 5100;
+
+const port = process.env.PORT || 5100;
 const server = app.listen(port, () => {
   console.log("Connected to port " + port);
 });
