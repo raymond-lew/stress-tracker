@@ -20,8 +20,14 @@ app.use(cors());
 app.use("/api", Route);
 
 const path = require("path");
+app.use(express.static('../build'));
+app.get('*', (req, res)=> {
+  const index = path.join(__dirname, '/', '../build', 'index.html' );
+  res.sendFile(index);
+});
+{/*}
 app.use(express.static(path.join(__dirname, "build"))); 
-
+*/}
 
 const port process.env.PORT || 5100;
 const server = app.listen(port, () => {
